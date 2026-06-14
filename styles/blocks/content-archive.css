@@ -462,7 +462,7 @@
     }
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1400px) {
     .archive-card {
         flex-direction: column;
         gap: 20px;
