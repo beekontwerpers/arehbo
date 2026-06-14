@@ -82,7 +82,7 @@
 
 .tile-card:hover .tile-card__btn-label,
 .tile-slide:hover .tile-card__btn-label {
-    max-width: 120px;
+    max-width: 180px;
     opacity: 1;
     margin-right: 12px;
 }
@@ -215,7 +215,7 @@ a.tile-slide__overlay {
 @media (max-width: 990px) {
     .tile-card .tile-card__btn-label,
     .tile-slide .tile-card__btn-label {
-        max-width: 120px;
+        max-width: 180px;
         opacity: 1;
         margin-right: 12px;
         transition: none;

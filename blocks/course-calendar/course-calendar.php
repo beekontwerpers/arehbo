@@ -36,14 +36,9 @@ $appointments = array_values(array_filter($appointments, function ($appointment)
 $phone = get_field('footer_contact_phone', 'option');
 $email = get_field('footer_contact_email', 'option');
 
-$form_page_posts = get_posts([
-    'post_type'      => 'page',
-    'meta_key'       => '_wp_page_template',
-    'meta_value'     => 'templates/page-inschrijven-form.php',
-    'posts_per_page' => 1,
-    'fields'         => 'ids',
-]);
-$form_page_url = !empty($form_page_posts) ? get_permalink($form_page_posts[0]) : '';
+$form_page_url = function_exists('arehbo_get_inschrijven_form_page_url')
+    ? arehbo_get_inschrijven_form_page_url()
+    : '';
 
 $icon_user     = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>';
 $icon_calendar = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>';
@@ -231,18 +226,20 @@ foreach ($appointments as $appointment) {
                         <div class="course-card__main">
                             <h3 class="course-card__name"><?= esc_html($card['name']); ?></h3>
                             <hr class="course-card__main-sep">
-	                                <ul class="course-card__lesdagen">
-	                                <?php foreach ($days as $i => $dag) : ?>
-	                                    <li class="course-card__lesdag">
-	                                        <span class="course-card__lesdag-label">Lesdag <?= esc_html($i + 1); ?></span>
-	                                        <span class="course-card__lesdag-date">
-	                                            <?= $icon_calendar; ?>
-	                                            <span><?= esc_html(arehbo_format_nl_date($dates_ts[$i] ?? null)); ?></span>
-	                                        </span>
-                                        <span class="course-card__lesdag-time">
-                                            <?= $icon_clock; ?>
-                                            <span><?= esc_html($dag['time']); ?></span>
-                                        </span>
+                            <ul class="course-card__lesdagen">
+                                <?php foreach ($days as $i => $dag) : ?>
+                                    <li class="course-card__lesdag">
+                                        <span class="course-card__lesdag-label">Lesdag <?= esc_html($i + 1); ?></span>
+                                        <div class="course-card__lesdag-meta">
+                                            <span class="course-card__lesdag-date">
+                                                <?= $icon_calendar; ?>
+                                                <span><?= esc_html(arehbo_format_nl_date($dates_ts[$i] ?? null)); ?></span>
+                                            </span>
+                                            <span class="course-card__lesdag-time">
+                                                <?= $icon_clock; ?>
+                                                <span><?= esc_html($dag['time']); ?></span>
+                                            </span>
+                                        </div>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

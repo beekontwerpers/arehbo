@@ -77,7 +77,7 @@ $default_bg_class   = ($default_background === 'dark-blue') ? 'bg-dark' : 'bg-li
                             >
                                 <span class="hb-card__title"><?= esc_html($card_title); ?></span>
                                 <div class="tile-card__btn-wrap">
-                                    <span class="tile-card__btn-label" aria-hidden="true">BEKIJKEN</span>
+                                    <span class="tile-card__btn-label" aria-hidden="true">MEER INFORMATIE</span>
                                     <span class="tile-card__btn" aria-hidden="true">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                             <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

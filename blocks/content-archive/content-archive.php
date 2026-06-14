@@ -23,7 +23,7 @@ $grid_active_term   = 'all';
 $bg_map   = ['dark' => 'bg-dark', 'light' => 'bg-light'];
 $bg_class = $bg_map[$background] ?? 'bg-light';
 
-$btn_label = ($post_type === 'vacatures') ? 'SOLICITEER' : 'DIRECT AANMELDEN';
+$btn_label = 'MEER INFORMATIE';
 
 $query_args = [
     'post_type'      => $post_type,

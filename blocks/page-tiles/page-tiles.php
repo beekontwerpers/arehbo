@@ -69,7 +69,7 @@ $arrow_icon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns
 
                         <?php if ($button && !empty($button['url'])) : ?>
                             <div class="tile-card__btn-wrap">
-                                <span class="tile-card__btn-label" aria-hidden="true">BEKIJKEN</span>
+                                <span class="tile-card__btn-label" aria-hidden="true">MEER INFORMATIE</span>
                                 <span class="tile-card__btn" aria-hidden="true"><?= $arrow_icon; ?></span>
                             </div>
                         <?php endif; ?>
@@ -135,7 +135,7 @@ $arrow_icon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns
 
                                         <?php if ($has_link) : ?>
                                             <div class="tile-card__btn-wrap tile-slide__btn-wrap">
-                                                <span class="tile-card__btn-label" aria-hidden="true">BEKIJKEN</span>
+                                                <span class="tile-card__btn-label" aria-hidden="true">MEER INFORMATIE</span>
                                                 <span class="tile-card__btn" aria-hidden="true"><?= $arrow_icon; ?></span>
                                             </div>
                                         <?php endif; ?>

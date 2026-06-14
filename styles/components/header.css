@@ -444,10 +444,6 @@
         font-size: var(--font-size-small);
     }
 
-    .mega-menu__col-title {
-        line-height: 24px;
-    }
-
     .mega-menu__link {
         line-height: 30px;
     }
@@ -676,7 +672,7 @@ a.mobile-nav__link:hover {
 .mega-menu__col-title {
     font-family: var(--font-sans);
     font-size: var(--font-size-standard);
-    line-height: 28px;
+    line-height: normal;
     font-weight: 600;
     letter-spacing: 0;
     color: var(--color-primary);
@@ -695,7 +691,7 @@ a.mobile-nav__link:hover {
 .mega-menu__link {
     font-family: var(--font-sans);
     font-size: var(--font-size-standard);
-    line-height: 35px;
+    line-height: normal;
     font-weight: 400;
     letter-spacing: 0;
     color: var(--color-primary);
@@ -714,7 +710,7 @@ a.mobile-nav__link:hover {
     margin-top: 15px;
     font-family: var(--font-sans);
     font-size: var(--font-size-standard);
-    line-height: 30px;
+    line-height: normal;
     font-weight: 600;
     letter-spacing: 0;
     color: var(--color-accent);
