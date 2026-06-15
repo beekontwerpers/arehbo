@@ -130,6 +130,10 @@
     min-width: 0;
 }
 
+.cursus-hero__reviews {
+    margin-bottom: 30px;
+}
+
 .cursus-hero__title {
     margin: 0;
     font-family: var(--font-sans);

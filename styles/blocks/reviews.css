@@ -65,6 +65,12 @@
     overflow: visible;
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+    .slider.slider--reviews {
+        overflow: hidden;
+    }
+}
+
 
 .slider--reviews .swiper-slide {
     width: 500px;

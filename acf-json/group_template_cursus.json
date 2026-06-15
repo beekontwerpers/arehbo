@@ -3,6 +3,18 @@
     "title": "Cursus – Hero",
     "fields": [
         {
+            "key": "field_cursus_show_reviews",
+            "label": "Show Google Reviews",
+            "name": "cursus_show_reviews",
+            "type": "true_false",
+            "instructions": "Display the Google Reviews widget above the title.",
+            "required": 0,
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Show",
+            "ui_off_text": "Hide"
+        },
+        {
             "key": "field_cursus_hero_title",
             "label": "Title",
             "name": "cursus_title",
@@ -86,5 +98,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761696101
+    "modified": 1781568000
 }

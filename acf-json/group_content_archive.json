@@ -373,6 +373,17 @@
             "type": "text",
             "default_value": "",
             "placeholder": ""
+        },
+        {
+            "key": "field_carchive_show_google_reviews",
+            "label": "Show Google reviews",
+            "name": "show_google_reviews",
+            "type": "true_false",
+            "instructions": "Show the Google reviews badge next to the title",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
         }
     ],
     "location": [
@@ -393,5 +404,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1741305600
+    "modified": 1781568000
 }

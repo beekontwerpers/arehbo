@@ -731,6 +731,12 @@ body:has(.hero-banner--hero) .site-header {
     }
 }
 
+@media (max-width: 600px) {
+    .hb-formulier__description > div {
+        gap: 0.4rem;
+    }
+}
+
 /* ---------- Hero banner USP bar ---------- */
 
 .hb-usps {

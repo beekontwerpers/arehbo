@@ -14,6 +14,8 @@ $display_mode = $layout === 'grid'
 $manual_posts = get_field('posts')         ?: [];
 $show_filters = get_field('show_filters');
 $title        = get_field('title');
+$show_google_reviews = get_field('show_google_reviews');
+$show_google_reviews = ($show_google_reviews === '' || $show_google_reviews === null) ? true : (bool) $show_google_reviews;
 
 $taxonomy = arehbo_taxonomy_for_post_type($post_type);
 $term     = $taxonomy ? get_field('term_' . $post_type) : null;
@@ -200,7 +202,9 @@ endif;
             <div class="container">
                 <div class="content-archive__head">
                     <h2 class="content-archive__title"><?= esc_html($title); ?></h2>
-                    <?php get_template_part('components/google-reviews', '', ['variant' => $background === 'dark' ? 'dark' : 'light']); ?>
+                    <?php if ($show_google_reviews) : ?>
+                        <?php get_template_part('components/google-reviews', '', ['variant' => $background === 'dark' ? 'dark' : 'light']); ?>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endif; ?>

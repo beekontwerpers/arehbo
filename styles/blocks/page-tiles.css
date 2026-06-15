@@ -150,6 +150,12 @@
     overflow: visible;
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+    .page-tiles__swiper-wrap .swiper {
+        overflow: hidden;
+    }
+}
+
 .tile-slide {
     border-radius: 30px;
     overflow: hidden;

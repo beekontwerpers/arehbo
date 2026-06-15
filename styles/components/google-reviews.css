@@ -54,5 +54,6 @@
 
 .google-reviews__label {
     font-weight: 400;
+    white-space: nowrap;
 }
 

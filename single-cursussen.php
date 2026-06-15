@@ -5,6 +5,7 @@ get_header();
 while (have_posts()) : the_post();
 
     $page_title  = get_the_title();
+    $show_reviews = (bool) get_field('cursus_show_reviews');
     $hero_title  = get_field('cursus_title') ?: $page_title;
     $description = get_field('cursus_description');
     $img_id      = get_field('cursus_image');
@@ -59,6 +60,12 @@ while (have_posts()) : the_post();
             <div class="cursus-hero">
 
                 <div class="cursus-hero__text">
+
+                    <?php if ($show_reviews) : ?>
+                        <div class="cursus-hero__reviews">
+                            <?php get_template_part('components/google-reviews', '', ['variant' => 'light']); ?>
+                        </div>
+                    <?php endif; ?>
 
                     <?php if ($hero_title) : ?>
                         <h1 class="cursus-hero__title"><?= esc_html($hero_title); ?></h1>

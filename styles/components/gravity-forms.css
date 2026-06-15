@@ -422,4 +422,22 @@ html body .gform_wrapper .ginput_container_consent input[type="checkbox"] {
     letter-spacing: 0px;
     color: #004081!important;
     text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: normal;
+    text-align: left;
+}
+
+.gfield_repeater_buttons .arehbo-icon {
+    max-width: 58px;
+    width: 100%;
+    flex-shrink: 0;
+    display: inline-flex;
+}
+
+@media (min-width: 460px) {
+    .gfield_repeater_buttons .add_repeater_item {
+        white-space: nowrap;
+    }
 }
