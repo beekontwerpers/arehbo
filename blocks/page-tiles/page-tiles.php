@@ -15,6 +15,8 @@ if (empty($cards)) {
 }
 
 $arrow_icon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$arrow_left = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M16 10H4M4 10L9 5M4 10L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$arrow_right = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 ?>
 
@@ -148,6 +150,18 @@ $arrow_icon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns
 
                     </div>
                 </div>
+            </div>
+
+            <div class="page-tiles__nav slider-nav">
+                <div class="slider-nav__arrows">
+                    <button class="slider-nav__btn slider-nav__btn--prev" type="button" aria-label="Vorige pagina">
+                        <?= $arrow_left; ?>
+                    </button>
+                    <button class="slider-nav__btn slider-nav__btn--next" type="button" aria-label="Volgende pagina">
+                        <?= $arrow_right; ?>
+                    </button>
+                </div>
+                <div class="slider-nav__progress page-tiles__progress swiper-pagination"></div>
             </div>
 
         </div>

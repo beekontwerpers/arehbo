@@ -161,7 +161,7 @@ foreach ($appointments as $appointment) {
                 <div class="course-calendar__empty">
                     <p>
                         Sorry, momenteel hebben we geen cursus vrij waarop aangemeld kan worden.
-                        Toch aanmelden? Stuur een mail naar
+                        Toch aanmelden? Stuur een e-mail naar
                         <?php if ($email) : ?>
                             <a href="mailto:<?= esc_attr($email); ?>"><?= esc_html($email); ?></a>
                         <?php else : ?>

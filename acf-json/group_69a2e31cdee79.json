@@ -180,7 +180,7 @@
             "layout": "block",
             "pagination": 0,
             "min": 1,
-            "max": 3,
+            "max": 4,
             "collapsed": "",
             "button_label": "Add Row",
             "rows_per_page": 20,

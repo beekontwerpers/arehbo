@@ -291,10 +291,10 @@
             "label": "USP items",
             "name": "default_usp_items",
             "type": "repeater",
-            "instructions": "Items displayed in the USP list. Max 3 items.",
+            "instructions": "Items displayed in the USP list. Max 4 items.",
             "required": 0,
             "min": 0,
-            "max": 3,
+            "max": 4,
             "layout": "block",
             "button_label": "Add USP item",
             "conditional_logic": [

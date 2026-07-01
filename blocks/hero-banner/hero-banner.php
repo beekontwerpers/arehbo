@@ -188,13 +188,13 @@ $default_bg_class   = ($default_background === 'dark-blue') ? 'bg-dark' : 'bg-li
                         <div class="container">
                             <div class="usp-list__track">
                                 <?php get_template_part('components/usp-items', '', [
-                                    'items'     => array_slice($default_usps, 0, 3),
+                                    'items'     => array_slice($default_usps, 0, 4),
                                     'show_icon' => true,
                                 ]); ?>
 
                                 <div class="usp-list__clone" aria-hidden="true">
                                     <?php get_template_part('components/usp-items', '', [
-                                        'items'     => array_slice($default_usps, 0, 3),
+                                        'items'     => array_slice($default_usps, 0, 4),
                                         'show_icon' => true,
                                         'label'     => '',
                                     ]); ?>

@@ -65,6 +65,7 @@
     align-items: center;
     justify-content: flex-start;
     margin-top: auto;
+    pointer-events: none;
 }
 
 .tile-card__btn-label {
@@ -110,6 +111,7 @@
     color: var(--color-white);
     text-decoration: none;
     transition: transform 0.35s ease;
+    pointer-events: none;
 }
 
 .tile-card:hover .tile-card__btn,
@@ -148,6 +150,37 @@
 
 .page-tiles__swiper-wrap .swiper {
     overflow: visible;
+}
+
+.page-tiles__nav {
+    margin-top: var(--space-2);
+}
+
+.page-tiles__nav .slider-nav__progress {
+    max-width: 570px;
+}
+
+.page-tiles.bg-dark .swiper-pagination-progressbar-fill {
+    background-color: #ffffff;
+}
+
+.page-tiles.bg-light .swiper-pagination-progressbar-fill {
+    background-color: var(--color-primary);
+}
+
+.page-tiles.bg-light .slider-nav__btn {
+    border-color: rgba(var(--color-primary-rgb), 0.25);
+    color: var(--color-primary);
+}
+
+.page-tiles.bg-light .slider-nav__btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-white);
+}
+
+.page-tiles.bg-light .page-tiles__progress {
+    background: rgba(var(--color-primary-rgb), 0.2);
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -247,6 +280,10 @@ a.tile-slide__overlay {
     }
 
     .page-tiles__swiper-wrap {
+        margin-top: var(--space-2);
+    }
+
+    .page-tiles__nav {
         margin-top: var(--space-2);
     }
 }

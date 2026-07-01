@@ -94,6 +94,7 @@
     display: flex;
     align-items: center;
     margin-top: 30px;
+    pointer-events: none;
 }
 
 .blog-card__btn-label {
@@ -125,6 +126,7 @@
     background: var(--color-accent);
     border-radius: 50%;
     transition: transform 0.35s ease;
+    pointer-events: none;
 }
 
 .blog-card:hover .blog-card__btn {
