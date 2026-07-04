@@ -16,7 +16,7 @@ $appointments = [];
 if ($course_id) {
     $appointments = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT appointment_id, start_date, end_date, room, location, places_left
+            "SELECT appointment_id, start_date, end_date, room, location, places_left, name
             FROM {$wpdb->prefix}custom_visualsystems_appointments
             WHERE course_id = %s
             AND parent_id = 0
@@ -56,7 +56,7 @@ foreach ($appointments as $appointment) {
 
     $sibling_dates = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT start_date, end_date
+            "SELECT start_date, end_date, appointment_id, places_left, name
             FROM {$wpdb->prefix}custom_visualsystems_appointments
             WHERE parent_id = %d
             ORDER BY start_date ASC",
@@ -66,7 +66,7 @@ foreach ($appointments as $appointment) {
     );
 
     $all_dates = array_merge(
-        [['start_date' => $appointment['start_date'], 'end_date' => $appointment['end_date']]],
+        [['start_date' => $appointment['start_date'], 'end_date' => $appointment['end_date'], 'appointment_id' => $appointment_id, 'places_left' => $places_left, 'name' => $appointment['name']]],
         $sibling_dates
     );
 
@@ -81,7 +81,7 @@ foreach ($appointments as $appointment) {
         }
         // De-dup on start_date (same day+time). Keep the earliest end_date we see.
         if (!isset($unique_dates[$start]) || ($end && $end < ($unique_dates[$start]['end_date'] ?? PHP_INT_MAX))) {
-            $unique_dates[$start] = ['start_date' => $start, 'end_date' => $end];
+            $unique_dates[$start] = ['start_date' => $start, 'end_date' => $end, 'appointment_id' => $date_row['appointment_id'], 'places_left' => $date_row['places_left'], 'name' => $date_row['name']];
         }
     }
 	    $all_dates = array_values($unique_dates);
@@ -102,6 +102,9 @@ foreach ($appointments as $appointment) {
 	            $merged_days[$date_key] = [
 	                'start_date' => $start_ts,
 	                'end_date'   => $end_ts,
+	            	'appointment_id' => $date_row['appointment_id'],
+	            	'places_left' => $date_row['places_left'],
+					'name' => $date_row['name']
 	            ];
 	            continue;
 	        }
@@ -122,6 +125,9 @@ foreach ($appointments as $appointment) {
 	            'label' => 'Lesdag ' . ($i + 1) . ' (' . $weekday . ')',
 	            'date'  => date_i18n('d-m-Y', $date_row['start_date']),
 	            'time'  => date_i18n('H:i', $date_row['start_date']) . ' tot ' . date_i18n('H:i', $date_row['end_date']),
+				'appointment_id' => $date_row['appointment_id'],
+				'places_left' => $date_row['places_left'],
+				'name' => $date_row['name']
 	        ];
 	    }
 
@@ -227,9 +233,18 @@ foreach ($appointments as $appointment) {
                             <h3 class="course-card__name"><?= esc_html($card['name']); ?></h3>
                             <hr class="course-card__main-sep">
                             <ul class="course-card__lesdagen">
-                                <?php foreach ($days as $i => $dag) : ?>
+                                <?php foreach ($days as $i => $dag) : 
+                                	$name = "Lesdag ".esc_html($i + 1);
+				                	if($dag['name'] && $dag['name'] !== '') {
+				                		if(strpos($dag['name'], ":") !== false){
+				                			$name = esc_html(substr($dag['name'], strpos($dag['name'], ":") + 1));	
+				                		}else{
+				                			$name = esc_html($dag['name']);
+				                		}
+				                	}
+                                ?>
                                     <li class="course-card__lesdag">
-                                        <span class="course-card__lesdag-label">Lesdag <?= esc_html($i + 1); ?></span>
+                                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
                                         <div class="course-card__lesdag-meta">
                                             <span class="course-card__lesdag-date">
                                                 <?= $icon_calendar; ?>

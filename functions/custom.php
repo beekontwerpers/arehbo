@@ -225,7 +225,7 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
 
         $appointments = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT appointment_id, start_date, end_date, room, location, places_left
+                "SELECT appointment_id, start_date, end_date, room, location, places_left, name
                 FROM {$wpdb->prefix}custom_visualsystems_appointments
                 WHERE course_id = %s
                 AND parent_id = 0
@@ -245,7 +245,7 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
 
             $sibling_dates = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT start_date, end_date
+                    "SELECT start_date, end_date, appointment_id, places_left, name
                     FROM {$wpdb->prefix}custom_visualsystems_appointments
                     WHERE parent_id = %d
                     ORDER BY start_date ASC",
@@ -255,7 +255,7 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
             );
 
             $all_dates = array_merge(
-                [['start_date' => $appointment['start_date'], 'end_date' => $appointment['end_date']]],
+                [['start_date' => $appointment['start_date'], 'end_date' => $appointment['end_date'], 'appointment_id' => $appointment_id, 'places_left' => $places_left, 'name' => $appointment['name']]],
                 $sibling_dates
             );
 
@@ -267,7 +267,7 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
                     continue;
                 }
                 if (!isset($unique_dates[$start]) || ($end && $end < ($unique_dates[$start]['end_date'] ?? PHP_INT_MAX))) {
-                    $unique_dates[$start] = ['start_date' => $start, 'end_date' => $end];
+                    $unique_dates[$start] = ['start_date' => $start, 'end_date' => $end, 'appointment_id' => $date_row['appointment_id'] ?? null, 'places_left' => $date_row['places_left'] ?? 0, 'name' => $date_row['name'] ?? ''];
                 }
             }
 
@@ -288,6 +288,9 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
                     $merged_days[$date_key] = [
                         'start_date' => $start_ts,
                         'end_date'   => $end_ts,
+						'appointment_id' => $date_row['appointment_id'] ?? null,
+						'places_left' => $date_row['places_left'] ?? 0,
+                    	'name' => $date_row['name'] ?? ''
                     ];
                     continue;
                 }
@@ -307,7 +310,13 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
                     'label' => 'Lesdag ' . ($i + 1) . ' (' . date_i18n('l', $date_row['start_date']) . ')',
                     'date'  => date_i18n('d-m-Y', $date_row['start_date']),
                     'time'  => date_i18n('H:i', $date_row['start_date']) . ' tot ' . date_i18n('H:i', $date_row['end_date']),
+					'appointment_id' => $date_row['appointment_id'] ?? null,
+					'places_left' => $date_row['places_left'] ?? 0,
+                	'name' => $date_row['name'] ?? ''
                 ];
+                if($date_row['places_left'] ?? 0 < $places_left) {
+                    $places_left = $date_row['places_left'] ?? 0;
+                }
             }
 
             if ($places_left === 0) {
@@ -398,9 +407,18 @@ function arehbo_render_inschrijven_cards($cards, $form_page_url) {
             <h3 class="course-card__name"><?= esc_html($card['name']); ?></h3>
             <hr class="course-card__main-sep">
             <ul class="course-card__lesdagen">
-                <?php foreach ($days as $i => $dag) : ?>
-                    <li class="course-card__lesdag">
-                        <span class="course-card__lesdag-label">Lesdag <?= esc_html($i + 1); ?></span>
+                <?php foreach ($days as $i => $dag) : 
+                	$name = "Lesdag ".esc_html($i + 1);
+                	if($dag['name'] && $dag['name'] !== '') {
+                		if(strpos($dag['name'], ":") !== false){
+                			$name = esc_html(substr($dag['name'], strpos($dag['name'], ":") + 1));	
+                		}else{
+                			$name = esc_html($dag['name']);
+                		}
+                	}
+                	?>
+                	<li class="course-card__lesdag">
+                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
                         <div class="course-card__lesdag-meta">
                             <span class="course-card__lesdag-date">
                                 <?= $icon_calendar; ?>
