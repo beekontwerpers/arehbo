@@ -20,7 +20,13 @@ $phone_img_id  = get_field('phone_image', 'option');
 $phone_img_url = $phone_img_id ? wp_get_attachment_image_url($phone_img_id, 'thumbnail') : '';
 $phone_img_alt = $phone_img_id ? (get_post_meta($phone_img_id, '_wp_attachment_image_alt', true) ?: '') : '';
 
-$cta_button    = get_field('cta_button', 'option');
+$cta_button = null;
+if (is_singular()) {
+    $cta_button = get_field('cta_button', get_queried_object_id());
+}
+if (empty($cta_button)) {
+    $cta_button = get_field('cta_button', 'option');
+}
 $nav_items     = get_field('navigation', 'option') ?: [];
 $header_bg     = 'bg-light-blue';
 

@@ -10,8 +10,15 @@
     var loadedCategory = '';
     var cardsLoaded = false;
     var isLoading = false;
+    var initialCategory = '';
 
     if (!cat || !cursus || !cardsContainer) return;
+
+    try {
+        initialCategory = new URL(window.location.href).searchParams.get('categorie') || '';
+    } catch (e) {
+        initialCategory = '';
+    }
 
     function setHidden(element, hidden) {
         if (!element) return;
@@ -159,4 +166,12 @@
     resetCourseSelect();
     setHidden(placeholder, false);
     setHidden(emptyState, true);
+
+    if (initialCategory) {
+        cat.value = initialCategory;
+
+        if (cat.value === initialCategory) {
+            cat.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
 }());

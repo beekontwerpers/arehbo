@@ -5,6 +5,7 @@ $url     = $args['url']     ?? '';
 $target  = $args['target']  ?? '_self';
 $variant = $args['variant'] ?? 'accent';
 $icon    = $args['icon']    ?? true;
+$data_attrs = $args['data_attrs'] ?? [];
 
 if (empty($label) || empty($url)) {
     return;
@@ -17,11 +18,28 @@ $a11y_label = null;
 if (in_array($variant, ['accent', 'outline'], true)) {
     $a11y_label = 'Navigeren naar: ' . trim(wp_strip_all_tags($label));
 }
+
+$data_attr_html = '';
+if (is_array($data_attrs)) {
+    foreach ($data_attrs as $name => $value) {
+        $name = preg_replace('/[^a-zA-Z0-9_\-]/', '', (string) $name);
+        if ($name === '' || $value === null || $value === '') {
+            continue;
+        }
+
+        $data_attr_html .= sprintf(
+            ' data-%s="%s"',
+            esc_attr($name),
+            esc_attr((string) $value)
+        );
+    }
+}
 ?>
 
 <a
     href="<?php echo esc_url($url); ?>"
     class="<?php echo $classes; ?>"
+    <?php echo $data_attr_html; ?>
     <?php if ($a11y_label) : ?>aria-label="<?php echo esc_attr($a11y_label); ?>"<?php endif; ?>
     <?php if ($is_external) : ?>target="_blank" rel="noopener noreferrer"<?php endif; ?>
 >

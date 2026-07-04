@@ -96,6 +96,9 @@ foreach ($tiers as $t) {
                                     'target'  => $target,
                                     'variant' => $variant,
                                     'icon'    => true,
+                                    'data_attrs' => [
+                                        'qty-url-template' => $url,
+                                    ],
                                 ]);
                             endforeach; ?>
                         </div>

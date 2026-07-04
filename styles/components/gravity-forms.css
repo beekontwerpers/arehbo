@@ -227,6 +227,10 @@ html body .gform_wrapper .ginput_container_consent input[type="checkbox"] {
     display: none !important;
 }
 
+.gform_wrapper.gravity-theme .gsection {
+    border-bottom: 1px solid var(--arehbo-gf-border) !important;
+}
+
 .arehbo-gf-top-actions {
     padding: 40px 0;
     margin-bottom: 40px;
@@ -321,10 +325,6 @@ html body .gform_wrapper .ginput_container_consent input[type="checkbox"] {
 
 .gform_wrapper .ginput_container_date img.ui-datepicker-trigger {
     object-fit: contain;
-}
-
-.gform_wrapper.gravity-theme .gsection {
-    border-bottom: none !important;
 }
 
 .gform_wrapper input[type]:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="radio"]):not([type="checkbox"]):focus,
@@ -425,7 +425,7 @@ html body .gform_wrapper .ginput_container_consent input[type="checkbox"] {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    white-space: normal;
+    white-space: nowrap;
     text-align: left;
 }
 
@@ -440,4 +440,8 @@ html body .gform_wrapper .ginput_container_consent input[type="checkbox"] {
     .gfield_repeater_buttons .add_repeater_item {
         white-space: nowrap;
     }
+}
+
+#field_5_1000 {
+    padding-bottom: 8px;
 }
