@@ -14,10 +14,22 @@ $form_id     = get_field('inschr_form_id');
 $bg_class = ($background === 'dark-blue') ? ' bg-dark' : ' bg-light';
 $is_dark  = $background === 'dark-blue';
 
-$course_naam   = isset($_GET['course'])        ? sanitize_text_field($_GET['course'])    : '';
-$locatie     = isset($_GET['locatie'])     ? sanitize_text_field($_GET['locatie']) : '';
-$beschikbaar = isset($_GET['beschikbaar']) ? intval($_GET['beschikbaar'])           : 0;
-$prijs       = isset($_GET['prijs'])       ? sanitize_text_field($_GET['prijs'])   : '';
+$course_naam = isset($_GET['course']) ? sanitize_text_field($_GET['course']) : '';
+$course_id   = isset($_GET['course_id']) ? absint($_GET['course_id']) : 0;
+$locatie     = isset($_GET['locatie']) ? sanitize_text_field($_GET['locatie']) : '';
+$datum_raw   = isset($_GET['date']) ? sanitize_text_field($_GET['date']) : '';
+$beschikbaar = isset($_GET['beschikbaar']) ? intval($_GET['beschikbaar']) : 0;
+$prijs       = isset($_GET['prijs']) ? sanitize_text_field($_GET['prijs']) : '';
+
+$cursus_datum = '';
+if ($datum_raw !== '') {
+    $date_obj = DateTime::createFromFormat('Y-m-d', $datum_raw) ?: DateTime::createFromFormat('d-m-Y', $datum_raw);
+    if ($date_obj instanceof DateTime) {
+        $cursus_datum = $date_obj->format('d-m-Y');
+    } else {
+        $cursus_datum = $datum_raw;
+    }
+}
 
 $dagdelen = [];
 if (!empty($_GET['dagdelen'])) {
@@ -82,12 +94,24 @@ $icon_location = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" wi
 
         <div class="inschr-form-main">
 
-            <?php if ($course_naam || $prijs || isset($_GET['beschikbaar']) || $locatie) : ?>
+            <?php if ($course_naam || $course_id || $cursus_datum || $prijs || isset($_GET['beschikbaar']) || $locatie) : ?>
                 <div class="inschr-form-info-box">
                     <?php if ($course_naam) : ?>
                         <h2 class="inschr-form-info-box__title"><?= esc_html($course_naam); ?></h2>
                     <?php endif; ?>
                     <div class="inschr-form-info-box__meta">
+                        <?php if ($course_id) : ?>
+                            <div class="inschr-form-info-box__meta-row">
+                                <span class="inschr-form-info-box__meta-icon">#</span>
+                                <span><?= esc_html($course_id); ?></span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($cursus_datum) : ?>
+                            <div class="inschr-form-info-box__meta-row">
+                                <?= $icon_calendar; ?>
+                                <span><?= esc_html($cursus_datum); ?></span>
+                            </div>
+                        <?php endif; ?>
                         <?php if ($prijs) : ?>
                             <div class="inschr-form-info-box__meta-row">
                                 <span class="inschr-form-info-box__meta-icon">€</span>

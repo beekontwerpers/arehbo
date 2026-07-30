@@ -259,7 +259,8 @@ function arehbo_resolve_single_slug_request($query_vars) {
         return $query_vars;
     }
 
-    return $query_vars;
+    // Let WordPress render a real 404 instead of falling back to home.php.
+    return ['error' => '404'];
 }
 
 add_filter('request', 'arehbo_resolve_single_slug_request');

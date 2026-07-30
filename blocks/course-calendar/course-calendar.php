@@ -8,6 +8,7 @@ global $wpdb, $post;
 
 $course_post_id = $post ? $post->ID : get_the_ID();
 $course_id      = $course_post_id ? get_field('id_visual_systems', $course_post_id) : '';
+$course_code    = $course_post_id ? get_field('code_visual_systems', $course_post_id) : '';
 $course_name    = $course_post_id ? get_the_title($course_post_id) : '';
 $course_loc     = $course_post_id ? get_field('locatie', $course_post_id) : '';
 $course_kosten  = $course_post_id ? get_field('kosten', $course_post_id) : '';
@@ -142,6 +143,7 @@ foreach ($appointments as $appointment) {
 	    $cards[] = [
 	        'status'      => $status,
 	        'name'        => $course_name,
+	    	'code'        => $course_code,
 	        'available'   => $places_left,
 	        'days_count'  => count($merged_days),
 	        'location'    => $course_loc,
@@ -193,17 +195,20 @@ foreach ($appointments as $appointment) {
                         $dates_ts = $card['dates_ts'];
                         $first_ts = $dates_ts[0] ?? null;
 
-                        $badge_url = '';
-                        if ($status !== 'vol' && $form_page_url) {
-                            $badge_url = add_query_arg([
-                                'appointment' => $card['appointment'],
-                                'course'      => $card['name'],
-                                'locatie'     => $card['location'],
-                                'beschikbaar' => $card['available'],
-                                'prijs'       => $course_kosten,
-                                'dagdelen'    => base64_encode(wp_json_encode($card['days'])),
-                            ], $form_page_url);
-                        }
+	                        $badge_url = '';
+	                        if ($status !== 'vol' && $form_page_url) {
+	                            $badge_url = add_query_arg([
+	                                'appointment' => $card['appointment'],
+	                                'course'      => $card['name'],
+	                                'course_id'   => $card['course_id'] ?? '',
+	                            	'param-cursus-code' => $card['code'],
+	                                'locatie'     => $card['location'],
+	                                'date'        => $first_ts ? date_i18n('Y-m-d', $first_ts) : '',
+	                                'beschikbaar' => $card['available'],
+	                                'prijs'       => $course_kosten,
+	                                'dagdelen'    => base64_encode(wp_json_encode($card['days'])),
+	                            ], $form_page_url);
+	                        }
                         $badge_tag   = $badge_url ? 'a' : 'div';
                         $badge_attrs = $badge_url ? ' href="' . esc_url($badge_url) . '"' : '';
                     ?>
@@ -244,7 +249,7 @@ foreach ($appointments as $appointment) {
 				                	}
                                 ?>
                                     <li class="course-card__lesdag">
-                                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
+                                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&param-cursus-code={$card['code']}&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
                                         <div class="course-card__lesdag-meta">
                                             <span class="course-card__lesdag-date">
                                                 <?= $icon_calendar; ?>

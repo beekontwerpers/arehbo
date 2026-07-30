@@ -220,6 +220,7 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
         $cursus_name   = $cursus_post->post_title;
         $cursus_loc    = get_field('locatie', $cursus_post->ID) ?: '';
         $cursus_kosten = get_field('kosten', $cursus_post->ID) ?: '';
+        $cursus_code   = get_field('code_visual_systems', $cursus_post->ID) ?: '';
         $cursus_terms  = wp_get_object_terms($cursus_post->ID, 'cursus_categorie', ['fields' => 'slugs']);
         $cursus_cat    = (!is_wp_error($cursus_terms) && !empty($cursus_terms)) ? implode(',', $cursus_terms) : '';
 
@@ -338,6 +339,7 @@ function arehbo_get_inschrijven_cards($category_slug = '') {
                 'dates_ts'    => array_map(fn($d) => $d['start_date'], $merged_days),
                 'category'    => $cursus_cat,
                 'course_id'   => $cursus_post->ID,
+            	'code'        => $cursus_code,
                 'appointment' => $appointment_id,
             ];
         }
@@ -370,7 +372,10 @@ function arehbo_render_inschrijven_cards($cards, $form_page_url) {
             $badge_url = add_query_arg([
                 'appointment' => $card['appointment'],
                 'course'      => $card['name'],
+                'course_id'   => $card['course_id'] ?? '',
+            	'code'        => $card['code'],
                 'locatie'     => $card['location'],
+                'date'        => $first_ts ? date_i18n('Y-m-d', $first_ts) : '',
                 'beschikbaar' => $card['available'],
                 'prijs'       => $card['prijs'] ?? '',
                 'dagdelen'    => base64_encode(wp_json_encode($card['days'])),
@@ -418,7 +423,7 @@ function arehbo_render_inschrijven_cards($cards, $form_page_url) {
                 	}
                 	?>
                 	<li class="course-card__lesdag">
-                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
+                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&param-cursus-code={$card['code']}&course={$card['name']}&course_id={$card['course_id']}&locatie={$card['location']}&date={$dag['date']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
                         <div class="course-card__lesdag-meta">
                             <span class="course-card__lesdag-date">
                                 <?= $icon_calendar; ?>

@@ -110,15 +110,6 @@
         });
     });
 
-    document.querySelectorAll('.mobile-nav__row').forEach(function (row) {
-        var btn = row.querySelector('.mobile-nav__panel-open');
-        if (!btn) return;
-        row.addEventListener('click', function (e) {
-            if (e.target === btn || btn.contains(e.target)) return;
-            btn.click();
-        });
-    });
-
     document.querySelectorAll('[data-go-main]').forEach(function (btn) {
         btn.addEventListener('click', function () {
             goToPanel(0);

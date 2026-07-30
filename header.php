@@ -3,9 +3,35 @@
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Server Side Tracking by Taggrs.io -->
+	
+<script>
+    (function(w,d,s,l,i){
+        w[l]=w[l]||[];
+        w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s);
+        j.async=true;
+        j.src='https://flow.arehbo.nl/'+i+'.js';
+        f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','55evdvu1h0');
+</script>
+
+<!-- End Server Side Tracking by Taggrs.io -->
+	
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+	
+	<!-- Server Side Tracking by Taggrs.io (noscript) -->
+	
+<noscript>
+    <iframe src="https://flow.arehbo.nl/55evdvu1h0.html" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+	
+<!-- End Server Side Tracking by Taggrs.io (noscript) -->
+
 <?php wp_body_open(); ?>
 
 <?php
@@ -251,7 +277,7 @@ $chevron_right_svg = '<svg class="site-nav__chevron" xmlns="http://www.w3.org/20
                                     ?>
                                         <li class="mobile-nav__item">
                                             <div class="mobile-nav__row">
-                                                <?php if ($link && !$has_dropdown && !$is_mega) : ?>
+                                                <?php if ($link) : ?>
                                                     <a class="mobile-nav__link" href="<?= esc_url($link['url']); ?>" <?= $link['target'] ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
                                                         <?= esc_html($label); ?>
                                                     </a>

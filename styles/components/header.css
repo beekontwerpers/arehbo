@@ -536,10 +536,6 @@ a.mobile-nav__link:hover {
     background-color: rgba(var(--color-primary-rgb), 0.06);
 }
 
-.mobile-nav__row:has(.mobile-nav__panel-open) {
-    cursor: pointer;
-}
-
 .mobile-nav__toggle .site-nav__chevron {
     transition: transform 0.25s ease;
 }

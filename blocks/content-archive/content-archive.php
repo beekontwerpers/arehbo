@@ -68,7 +68,9 @@ $archive_query = new WP_Query($query_args);
 $posts         = $archive_query->posts;
 wp_reset_postdata();
 
-if (empty($posts)) {
+$has_posts = !empty($posts);
+
+if (!$has_posts && $post_type !== 'vacatures') {
     return;
 }
 
@@ -209,33 +211,46 @@ endif;
             </div>
         <?php endif; ?>
 
-        <div class="content-archive__swiper-wrap container">
-            <div class="swiper">
-                <div class="swiper-wrapper">
+        <?php if ($has_posts) : ?>
+            <div class="content-archive__swiper-wrap container">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
 
-                    <?php foreach ($posts as $post) : ?>
-                        <div class="swiper-slide">
-                            <?= build_archive_card($post, $post_type, $btn_label, $arrow_right); ?>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php foreach ($posts as $post) : ?>
+                            <div class="swiper-slide">
+                                <?= build_archive_card($post, $post_type, $btn_label, $arrow_right); ?>
+                            </div>
+                        <?php endforeach; ?>
 
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="container">
-            <div class="content-archive__nav slider-nav">
-                <div class="slider-nav__arrows">
-                    <button class="slider-nav__btn slider-nav__btn--prev" aria-label="Vorige pagina">
-                        <?= $arrow_left; ?>
-                    </button>
-                    <button class="slider-nav__btn slider-nav__btn--next" aria-label="Volgende pagina">
-                        <?= $arrow_right; ?>
-                    </button>
+            <div class="container">
+                <div class="content-archive__nav slider-nav">
+                    <div class="slider-nav__arrows">
+                        <button class="slider-nav__btn slider-nav__btn--prev" aria-label="Vorige pagina">
+                            <?= $arrow_left; ?>
+                        </button>
+                        <button class="slider-nav__btn slider-nav__btn--next" aria-label="Volgende pagina">
+                            <?= $arrow_right; ?>
+                        </button>
+                    </div>
+                    <div class="slider-nav__progress content-archive__progress swiper-pagination"></div>
                 </div>
-                <div class="slider-nav__progress content-archive__progress swiper-pagination"></div>
             </div>
-        </div>
+        <?php elseif ($post_type === 'vacatures') : ?>
+            <div class="content-archive__empty-wrap container">
+                <div class="content-archive__empty">
+                    <h3 class="content-archive__empty-title">Geen vacatures gevonden</h3>
+                    <p>
+                        Er staan momenteel geen vacatures open. Stuur gerust een open sollicitatie naar
+                        <a href="mailto:info@arehbo.nl">info@arehbo.nl</a>.
+                        We maken graag kennis met bevlogen mensen die zich willen inzetten voor een veiliger Nederland.
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
 
     </div>
 </section>
@@ -268,21 +283,34 @@ endif;
                 </div>
             <?php endif; ?>
 
-            <div class="archive-grid">
-                <?php foreach ($posts as $post) : ?>
-                    <?= build_archive_card($post, $post_type, $btn_label, $arrow_right, true); ?>
-                <?php endforeach; ?>
-            </div>
+            <?php if ($has_posts) : ?>
+                <div class="archive-grid">
+                    <?php foreach ($posts as $post) : ?>
+                        <?= build_archive_card($post, $post_type, $btn_label, $arrow_right, true); ?>
+                    <?php endforeach; ?>
+                </div>
 
-            <div class="archive-pagination" aria-label="Paginering">
-                <button class="archive-page-btn archive-page-btn--prev" aria-label="Vorige pagina" type="button">
-                    <?= $arrow_left; ?>
-                </button>
-                <div class="archive-page-numbers" role="list"></div>
-                <button class="archive-page-btn archive-page-btn--next" aria-label="Volgende pagina" type="button">
-                    <?= $arrow_right; ?>
-                </button>
-            </div>
+                <div class="archive-pagination" aria-label="Paginering">
+                    <button class="archive-page-btn archive-page-btn--prev" aria-label="Vorige pagina" type="button">
+                        <?= $arrow_left; ?>
+                    </button>
+                    <div class="archive-page-numbers" role="list"></div>
+                    <button class="archive-page-btn archive-page-btn--next" aria-label="Volgende pagina" type="button">
+                        <?= $arrow_right; ?>
+                    </button>
+                </div>
+            <?php elseif ($post_type === 'vacatures') : ?>
+                <div class="content-archive__empty-wrap">
+                    <div class="content-archive__empty">
+                        <h3 class="content-archive__empty-title">Geen vacatures gevonden</h3>
+                        <p>
+                            Er staan momenteel geen vacatures open. Stuur gerust een open sollicitatie naar
+                            <a href="mailto:info@arehbo.nl">info@arehbo.nl</a>.
+                            We maken graag kennis met bevlogen mensen die zich willen inzetten voor een veiliger Nederland.
+                        </p>
+                    </div>
+                </div>
+            <?php endif; ?>
 
         </div>
     </div>
