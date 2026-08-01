@@ -35,13 +35,17 @@
 .blog-card__image-wrap {
     position: relative;
     margin-bottom: 30px;
+    aspect-ratio: 565 / 400;
+    overflow: hidden;
+    border-radius: 20px;
 }
 
 .blog-card__image {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    aspect-ratio: 565 / 400;
+    height: 100%;
     object-fit: cover;
-    border-radius: 20px;
     display: block;
 }
 

@@ -228,61 +228,57 @@ $blogs_url = ($page_for_posts = get_option('page_for_posts'))
 
             <?php if (!empty($cta_title)) : ?>
                 <section class="cta-section cta-section--light single-cta">
-                    <div class="container">
-                        <div class="cta">
-                            <div>
-                                <div class="cta__grid">
+                    <div class="cta">
+                        <div class="cta__grid">
 
-                                    <?php if ($cta_image_url) : ?>
-                                        <div class="cta__media">
-                                            <img
-                                                class="cta__image"
-                                                src="<?= esc_url($cta_image_url); ?>"
-                                                alt="<?= esc_attr($cta_image_alt); ?>"
-                                                width="440"
-                                                height="362"
-                                                loading="lazy"
-                                            >
-                                            <?php if ($cta_image_label) : ?>
-                                                <span class="cta__badge"><?= esc_html($cta_image_label); ?></span>
-                                            <?php endif; ?>
-                                        </div>
+                            <?php if ($cta_image_url) : ?>
+                                <div class="cta__media">
+                                    <img
+                                        class="cta__image"
+                                        src="<?= esc_url($cta_image_url); ?>"
+                                        alt="<?= esc_attr($cta_image_alt); ?>"
+                                        width="440"
+                                        height="362"
+                                        loading="lazy"
+                                    >
+                                    <?php if ($cta_image_label) : ?>
+                                        <span class="cta__badge"><?= esc_html($cta_image_label); ?></span>
                                     <?php endif; ?>
-
-                                    <div class="cta__content">
-
-                                        <div class="cta__text">
-                                            <h2 class="cta__title"><?= esc_html($cta_title); ?></h2>
-                                            <?php if ($cta_description) : ?>
-                                                <p class="cta__description"><?= esc_html($cta_description); ?></p>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <?php if (!empty($cta_buttons)) : ?>
-                                            <div class="cta__buttons">
-                                                <?php foreach ($cta_buttons as $i => $btn) :
-                                                    $link = $btn['link'] ?? null;
-                                                    $label = $link['title'] ?? '';
-                                                    $url   = $link['url']   ?? '';
-                                                    $target = $link['target'] ?? '_self';
-                                                    $variant = $btn['variant'] ?? ($i === 0 ? 'accent' : 'outline');
-                                                    if (empty($label) || empty($url)) continue;
-                                                ?>
-                                                    <?php get_template_part('components/button', '', [
-                                                        'label'   => $label,
-                                                        'url'     => $url,
-                                                        'target'  => $target,
-                                                        'variant' => $variant,
-                                                        'icon'    => $variant !== 'outline',
-                                                    ]); ?>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        <?php endif; ?>
-
-                                    </div>
-
                                 </div>
+                            <?php endif; ?>
+
+                            <div class="cta__content">
+
+                                <div class="cta__text">
+                                    <h2 class="cta__title"><?= esc_html($cta_title); ?></h2>
+                                    <?php if ($cta_description) : ?>
+                                        <p class="cta__description"><?= esc_html($cta_description); ?></p>
+                                    <?php endif; ?>
+                                </div>
+
+                                <?php if (!empty($cta_buttons)) : ?>
+                                    <div class="cta__buttons">
+                                        <?php foreach ($cta_buttons as $i => $btn) :
+                                            $link = $btn['link'] ?? null;
+                                            $label = $link['title'] ?? '';
+                                            $url   = $link['url']   ?? '';
+                                            $target = $link['target'] ?? '_self';
+                                            $variant = $btn['variant'] ?? ($i === 0 ? 'accent' : 'outline');
+                                            if (empty($label) || empty($url)) continue;
+                                        ?>
+                                            <?php get_template_part('components/button', '', [
+                                                'label'   => $label,
+                                                'url'     => $url,
+                                                'target'  => $target,
+                                                'variant' => $variant,
+                                                'icon'    => $variant !== 'outline',
+                                            ]); ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+
                             </div>
+
                         </div>
                     </div>
                 </section>
