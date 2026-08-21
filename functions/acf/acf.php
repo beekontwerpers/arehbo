@@ -2,7 +2,11 @@
 
 function arehbo_register_blocks() {
     foreach (glob(__DIR__ . '/../../blocks/*', GLOB_ONLYDIR) as $block_dir) {
-        register_block_type($block_dir);
+        register_block_type($block_dir, [
+            'api_version'         => 3,
+            'acf_block_version'   => 3,
+            'auto_inline_editing' => false,
+        ]);
     }
 }
 
@@ -94,4 +98,3 @@ add_filter('allowed_block_types_all', function ($allowed_block_types, $editor_co
     $custom = array_values(array_diff(arehbo_get_custom_block_names(), $excluded));
     return $custom;
 }, 10, 2);
-

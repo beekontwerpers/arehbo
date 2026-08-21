@@ -7,15 +7,13 @@
   "keywords": ["cursussen", "diensten", "vacatures", "archive", "slider", "grid", "filter"],
   "style": "file:../../styles/blocks/content-archive.css",
   "viewScript": "file:./content-archive.js",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
     "renderTemplate": "content-archive.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

@@ -106,6 +106,7 @@ function build_archive_card($post, $post_type, $btn_label, $arrow_right, $terms_
     $duur    = ($post_type === 'cursussen') ? get_field('duur', $post_id)    : '';
     $uren    = ($post_type === 'vacatures') ? get_field('uren', $post_id)    : '';
     $locatie = ($post_type === 'vacatures') ? get_field('locatie', $post_id) : '';
+    $salary  = ($post_type === 'vacatures') ? get_field('salary', $post_id)  : '';
 
     $data_terms = '';
     if ($terms_map_active) {
@@ -146,7 +147,7 @@ function build_archive_card($post, $post_type, $btn_label, $arrow_right, $terms_
 
             <h3 class="archive-card__title"><?= esc_html($post_title); ?></h3>
 
-            <?php if ($kosten || $duur || $uren || $locatie) : ?>
+            <?php if ($kosten || $duur || $uren || $locatie || $salary) : ?>
                 <div class="archive-card__meta">
 
                     <?php if ($kosten) : ?>
@@ -174,6 +175,13 @@ function build_archive_card($post, $post_type, $btn_label, $arrow_right, $terms_
                         <div class="archive-card__meta-row">
                             <span class="archive-card__meta-label">Locatie:</span>
                             <span class="archive-card__meta-value"><?= esc_html($locatie); ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($salary) : ?>
+                        <div class="archive-card__meta-row">
+                            <span class="archive-card__meta-label">Salarisindicatie:</span>
+                            <span class="archive-card__meta-value"><?= esc_html($salary); ?></span>
                         </div>
                     <?php endif; ?>
 

@@ -6,35 +6,68 @@
             "key": "field_vacature_uren",
             "label": "Uren",
             "name": "uren",
+            "aria-label": "",
             "type": "text",
             "instructions": "Bijv. 28-32 uur",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
-            "placeholder": "28-32 uur"
+            "placeholder": "28-32 uur",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_vacature_locatie",
             "label": "Locatie",
             "name": "locatie",
+            "aria-label": "",
             "type": "text",
             "instructions": "Bijv. Ede",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
-            "placeholder": "Ede"
+            "placeholder": "Ede",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
         },
         {
-            "key": "field_vacature_author",
-            "label": "Stel je vragen aan",
+            "key": "field_6a75df9f6d771",
+            "label": "Contactpersoon",
             "name": "vacature_author",
+            "aria-label": "",
             "type": "post_object",
-            "instructions": "Selecteer het teamlid voor deze vacature.",
+            "instructions": "",
             "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "post_type": [
                 "medewerkers"
             ],
+            "post_status": "",
             "taxonomy": "",
-            "allow_null": 1,
-            "multiple": 0,
             "return_format": "object",
-            "ui": 1
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "bidirectional": 0,
+            "ui": 1,
+            "bidirectional_target": []
         }
     ],
     "location": [
@@ -55,5 +88,8 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1741305600
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1786110090
 }

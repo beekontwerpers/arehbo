@@ -9,6 +9,7 @@ $post_date  = date_i18n('j F Y', get_the_time('U'));
 
 $uren    = get_field('uren', $post_id);
 $locatie = get_field('locatie', $post_id);
+$salary  = get_field('salary', $post_id);
 
 $author_raw = get_field('vacature_author', $post_id);
 if ($author_raw instanceof WP_Post) {
@@ -80,7 +81,7 @@ $arrow_left = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width
             <div class="blogs__content">
                 <div class="single-content">
 
-                <?php if ($author_name || $uren || $locatie || $post_date) : ?>
+                <?php if ($author_name || $uren || $locatie || $salary || $post_date) : ?>
                     <div class="single-author">
                         <?php if ($author_name) : ?>
                             <div class="single-author__left">
@@ -112,6 +113,12 @@ $arrow_left = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width
                                 <div class="single-author__meta-item">
                                     <span class="single-author__meta-label">Locatie:</span>
                                     <span class="single-author__meta-value"><?= esc_html($locatie); ?></span>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($salary) : ?>
+                                <div class="single-author__meta-item">
+                                    <span class="single-author__meta-label">Salarisindicatie:</span>
+                                    <span class="single-author__meta-value"><?= esc_html($salary); ?></span>
                                 </div>
                             <?php endif; ?>
                         </div>
