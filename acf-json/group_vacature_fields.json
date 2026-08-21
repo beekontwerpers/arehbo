@@ -43,6 +43,27 @@
             "append": ""
         },
         {
+            "key": "field_vacature_salary",
+            "label": "Salarisindicatie",
+            "name": "salary",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Bijv. €3.500 - €4.500",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_6a75df9f6d771",
             "label": "Contactpersoon",
             "name": "vacature_author",
@@ -89,7 +110,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "allow_ai_access": false,
-    "ai_description": "",
-    "modified": 1786110090
+    "modified": 1787299112
 }
