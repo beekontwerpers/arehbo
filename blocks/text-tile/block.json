@@ -6,15 +6,14 @@
   "icon": "editor-alignleft",
   "keywords": ["text", "tile", "content", "richtext"],
   "style": "file:../../styles/blocks/text-tile.css",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "text-tile.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

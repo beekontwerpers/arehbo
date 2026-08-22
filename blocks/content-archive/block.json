@@ -9,6 +9,7 @@
   "viewScript": "file:./content-archive.js",
   "apiVersion": 3,
   "acf": {
+    "blockVersion": 3,
     "renderTemplate": "content-archive.php"
   },
   "supports": {

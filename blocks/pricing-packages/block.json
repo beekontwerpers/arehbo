@@ -6,15 +6,14 @@
   "icon": "products",
   "keywords": ["pricing", "packages", "plans", "tiers", "price"],
   "style": "file:../../styles/blocks/pricing-packages.css",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "pricing-packages.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

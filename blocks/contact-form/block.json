@@ -6,15 +6,14 @@
   "icon": "email",
   "keywords": ["contact", "form", "author"],
   "style": "file:../../styles/blocks/contact-form.css",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "contact-form.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

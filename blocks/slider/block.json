@@ -7,15 +7,14 @@
   "keywords": ["slider", "photo", "process", "swiper", "carousel"],
   "style": "file:../../styles/blocks/slider.css",
   "viewScript": "file:./slider.js",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "slider.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

@@ -7,15 +7,14 @@
   "keywords": ["hero", "banner", "header", "cover"],
   "style": "file:../../styles/blocks/hero-banner.css",
   "viewScript": "file:./view.js",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "hero-banner.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

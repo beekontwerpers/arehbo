@@ -6,15 +6,14 @@
   "icon": "admin-post",
   "keywords": ["blogs", "posts", "news", "articles", "grid"],
   "style": "file:../../styles/blocks/blogs.css",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "blogs.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

@@ -7,15 +7,14 @@
   "keywords": ["faq", "accordion", "questions", "answers"],
   "style": "file:../../styles/blocks/faq.css",
   "viewScript": "file:./faq.js",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "faq.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

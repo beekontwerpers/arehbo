@@ -6,15 +6,14 @@
   "icon": "slides",
   "keywords": ["marquee", "logos", "scroll", "ticker"],
   "style": "file:../../styles/blocks/marquee.css",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "marquee.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

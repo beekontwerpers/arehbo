@@ -1,5 +1,9 @@
 <?php
 
+if (arehbo_should_blank_acf_block_backend()) {
+    return;
+}
+
 $space      = get_spacing_class(get_field('space'));
 $full_id    = get_full_id(get_field('id'));
 $background = $args['background'] ?? get_field('background') ?: 'light';

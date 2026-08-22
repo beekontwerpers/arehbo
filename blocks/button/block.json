@@ -5,15 +5,14 @@
   "category": "custom_blocks",
   "icon": "button",
   "keywords": ["button", "cta", "link"],
-  "apiVersion": 2,
+  "apiVersion": 3,
   "acf": {
-    "mode": "edit",
+    "blockVersion": 3,
     "renderTemplate": "button.php"
   },
   "supports": {
     "anchor": false,
     "align": false,
-    "customClassName": false,
-    "mode": false
+    "customClassName": false
   }
 }

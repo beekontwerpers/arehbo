@@ -1,5 +1,9 @@
 <?php
 
+if (arehbo_should_blank_acf_block_backend()) {
+    return;
+}
+
 $full_id   = get_full_id(get_field('id'));
 $layout    = get_field('layout') ?: 'hero';
 $bg_id     = get_field('background_image');
