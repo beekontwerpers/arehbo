@@ -19,6 +19,19 @@ function arehbo_visible_coursussen_query_args(array $query_args) {
                 'value'   => '1',
                 'compare' => '=',
             ],
+            // Losse dagdeel-cursussen uitsluiten: het veld staat uit of is er (nog) niet.
+            [
+                'relation' => 'OR',
+                [
+                    'key'     => 'dagdeel_cursus',
+                    'compare' => 'NOT EXISTS',
+                ],
+                [
+                    'key'     => 'dagdeel_cursus',
+                    'value'   => '1',
+                    'compare' => '!=',
+                ],
+            ],
         ]
     );
 

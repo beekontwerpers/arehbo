@@ -17,26 +17,32 @@ $course_name    = $course_post_id ? get_the_title($course_post_id) : '';
 $course_loc     = $course_post_id ? get_field('locatie', $course_post_id) : '';
 $course_kosten  = $course_post_id ? get_field('kosten', $course_post_id) : '';
 
+// start_date is een echte UTC-timestamp, dus de grens ook: morgen 00:00 in de sitetijdzone.
+$today_start = (new DateTimeImmutable('tomorrow', wp_timezone()))->getTimestamp();
+
+$component_ids = function_exists('arehbo_get_course_component_ids')
+    ? arehbo_get_course_component_ids($course_post_id)
+    : [];
+
+$component_prices = function_exists('arehbo_get_course_component_prices')
+    ? arehbo_get_course_component_prices($course_post_id)
+    : [];
+
 $appointments = [];
-if ($course_id) {
+if (!empty($component_ids)) {
+    $placeholders = implode(',', array_fill(0, count($component_ids), '%d'));
     $appointments = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT appointment_id, start_date, end_date, room, location, places_left, name
+            "SELECT appointment_id, parent_id, component_id, start_date, end_date, room, location, places_left, name
             FROM {$wpdb->prefix}custom_visualsystems_appointments
-            WHERE course_id = %s
-            AND parent_id = 0
+            WHERE component_id IN ($placeholders)
+            AND start_date >= %d
             ORDER BY start_date ASC",
-            $course_id
+            ...array_merge($component_ids, [$today_start])
         ),
         ARRAY_A
     );
 }
-
-// Hide appointments that start today or earlier.
-$today_start = strtotime('tomorrow', current_time('timestamp'));
-$appointments = array_values(array_filter($appointments, function ($appointment) use ($today_start) {
-    return ((int) ($appointment['start_date'] ?? 0)) >= $today_start;
-}));
 
 $phone = get_field('footer_contact_phone', 'option');
 $email = get_field('footer_contact_email', 'option');
@@ -54,108 +60,70 @@ $icon_close    = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" wi
 $icon_chevron  = '<svg class="course-card__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false" fill="none"><path d="M4 9L12 17L20 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 $cards = [];
+// Groepeer de component-appointments per reeks (parent-keten):
+// een sibling hoort bij zijn parent, een parent (parent_id = 0) vormt zelf de reeks.
+$runs = [];
 foreach ($appointments as $appointment) {
+    $run_key = ((int) $appointment['parent_id']) > 0
+        ? (int) $appointment['parent_id']
+        : (int) $appointment['appointment_id'];
+    $runs[$run_key][] = $appointment;
+}
 
-    $appointment_id = (int) $appointment['appointment_id'];
-    $places_left    = max(0, (int) $appointment['places_left']);
+foreach ($runs as $run_appointments) {
+    usort($run_appointments, fn($a, $b) => ((int) $a['start_date']) <=> ((int) $b['start_date']));
 
-    $sibling_dates = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT start_date, end_date, appointment_id, places_left, name
-            FROM {$wpdb->prefix}custom_visualsystems_appointments
-            WHERE parent_id = %d
-            ORDER BY start_date ASC",
-            $appointment_id
-        ),
-        ARRAY_A
-    );
-
-    $all_dates = array_merge(
-        [['start_date' => $appointment['start_date'], 'end_date' => $appointment['end_date'], 'appointment_id' => $appointment_id, 'places_left' => $places_left, 'name' => $appointment['name']]],
-        $sibling_dates
-    );
-
-    // Defensive: prevent duplicate lesson days (the data source can sometimes return
-    // a child row that mirrors the parent, or multiple rows for the same day).
-    $unique_dates = [];
-    foreach ($all_dates as $date_row) {
-        $start = (int) ($date_row['start_date'] ?? 0);
-        $end   = (int) ($date_row['end_date'] ?? 0);
-        if (!$start) {
-            continue;
-        }
-        // De-dup on start_date (same day+time). Keep the earliest end_date we see.
-        if (!isset($unique_dates[$start]) || ($end && $end < ($unique_dates[$start]['end_date'] ?? PHP_INT_MAX))) {
-            $unique_dates[$start] = ['start_date' => $start, 'end_date' => $end, 'appointment_id' => $date_row['appointment_id'], 'places_left' => $date_row['places_left'], 'name' => $date_row['name']];
+    // Primair appointment (voor inschrijven): de parent als die in de reeks zit, anders de eerste dag.
+    $primary = $run_appointments[0];
+    foreach ($run_appointments as $ra) {
+        if ((int) $ra['parent_id'] === 0) {
+            $primary = $ra;
+            break;
         }
     }
-	    $all_dates = array_values($unique_dates);
-	    usort($all_dates, fn($a, $b) => ($a['start_date'] ?? 0) <=> ($b['start_date'] ?? 0));
+    $appointment_id = (int) $primary['appointment_id'];
 
-	    // Merge multiple onderdelen on the same date into a single lesdag,
-	    // with start time of the first onderdeel and end time of the last onderdeel.
-	    $merged_days = [];
-	    foreach ($all_dates as $date_row) {
-	        $start_ts = (int) ($date_row['start_date'] ?? 0);
-	        $end_ts   = (int) ($date_row['end_date'] ?? 0);
-	        if (!$start_ts) {
-	            continue;
-	        }
-	        $date_key = date_i18n('Y-m-d', $start_ts);
+    $places_left = null;
+    $days = [];
+    foreach ($run_appointments as $i => $date_row) {
+        $day_places    = max(0, (int) $date_row['places_left']);
+        $day_component = (int) $date_row['component_id'];
+        $days[] = [
+            'label' => 'Lesdag ' . ($i + 1) . ' (' . wp_date('l', $date_row['start_date']) . ')',
+            'date'  => wp_date('d-m-Y', $date_row['start_date']),
+            'time'  => wp_date('H:i', $date_row['start_date']) . ' tot ' . wp_date('H:i', $date_row['end_date']),
+            'appointment_id' => (int) $date_row['appointment_id'],
+            'component_id' => $day_component,
+            'places_left' => $day_places,
+            'prijs' => $component_prices[$day_component] ?? '',
+            'name' => $date_row['name'] ?? ''
+        ];
+        $places_left = ($places_left === null) ? $day_places : min($places_left, $day_places);
+    }
+    $places_left = (int) $places_left;
 
-	        if (!isset($merged_days[$date_key])) {
-	            $merged_days[$date_key] = [
-	                'start_date' => $start_ts,
-	                'end_date'   => $end_ts,
-	            	'appointment_id' => $date_row['appointment_id'],
-	            	'places_left' => $date_row['places_left'],
-					'name' => $date_row['name']
-	            ];
-	            continue;
-	        }
-
-	        $merged_days[$date_key]['start_date'] = min($merged_days[$date_key]['start_date'], $start_ts);
-	        if ($end_ts) {
-	            $merged_days[$date_key]['end_date'] = max($merged_days[$date_key]['end_date'] ?? 0, $end_ts);
-	        }
-	    }
-
-	    $merged_days = array_values($merged_days);
-	    usort($merged_days, fn($a, $b) => ($a['start_date'] ?? 0) <=> ($b['start_date'] ?? 0));
-
-	    $days = [];
-	    foreach ($merged_days as $i => $date_row) {
-	        $weekday = date_i18n('l', $date_row['start_date']);
-	        $days[] = [
-	            'label' => 'Lesdag ' . ($i + 1) . ' (' . $weekday . ')',
-	            'date'  => date_i18n('d-m-Y', $date_row['start_date']),
-	            'time'  => date_i18n('H:i', $date_row['start_date']) . ' tot ' . date_i18n('H:i', $date_row['end_date']),
-				'appointment_id' => $date_row['appointment_id'],
-				'places_left' => $date_row['places_left'],
-				'name' => $date_row['name']
-	        ];
-	    }
-
-	    if ($places_left === 0) {
-	        $status = 'vol';
-	    } elseif ($places_left < 4) {
+    if ($places_left === 0) {
+        $status = 'vol';
+    } elseif ($places_left < 4) {
         $status = 'bijna-vol';
     } else {
         $status = 'beschikbaar';
     }
 
-	    $cards[] = [
-	        'status'      => $status,
-	        'name'        => $course_name,
-	    	'code'        => $course_code,
-	        'available'   => $places_left,
-	        'days_count'  => count($merged_days),
-	        'location'    => $course_loc,
-	        'days'        => $days,
-	        'dates_ts'    => array_map(fn($d) => $d['start_date'], $merged_days),
-	        'appointment' => $appointment_id,
-	    ];
-
+    $cards[] = [
+        'status'      => $status,
+        'name'        => $course_name,
+        'code'        => $course_code,
+        'available'   => $places_left,
+        'days_count'  => count(array_unique(array_map(
+            fn($d) => $d['date'],
+            $days
+        ))),
+        'location'    => $course_loc,
+        'days'        => $days,
+        'dates_ts'    => array_map(fn($d) => (int) $d['start_date'], $run_appointments),
+        'appointment' => $appointment_id,
+    ];
 }
 
 ?>
@@ -251,9 +219,15 @@ foreach ($appointments as $appointment) {
 				                			$name = esc_html($dag['name']);
 				                		}
 				                	}
+                                    // Zonder prijs op het component is inschrijven op dit dagdeel niet mogelijk: geen link.
+                                	$dag_prijs = trim((string) ($dag['prijs'] ?? ''));
                                 ?>
                                     <li class="course-card__lesdag">
-                                        <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&param-cursus-code={$card['code']}&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs={$course_kosten}&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
+                                        <?php if ($dag_prijs !== '') : ?>
+                                            <a href="<?php echo $form_page_url."?appointment={$dag['appointment_id']}&single=true&param-cursus-code={$card['code']}&course={$card['name']}&locatie={$card['location']}&beschikbaar={$card['available']}&prijs=".rawurlencode($dag_prijs)."&dagdelen=".base64_encode(wp_json_encode($card['days']));  ?>"><span class="course-card__lesdag-label"><?php echo $name; ?></span></a>
+                                        <?php else : ?>
+                                            <span class="course-card__lesdag-label"><?php echo $name; ?></span>
+                                        <?php endif; ?>
                                         <div class="course-card__lesdag-meta">
                                             <span class="course-card__lesdag-date">
                                                 <?= $icon_calendar; ?>

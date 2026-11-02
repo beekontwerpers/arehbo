@@ -42,6 +42,42 @@ if (!empty($_GET['dagdelen'])) {
     }
 }
 
+// Inschrijving voor één los dagdeel: toon alleen dát dagdeel, niet de hele cursus.
+$is_single       = !empty($_GET['single']) && $_GET['single'] !== 'false' && $_GET['single'] !== '0';
+$appointment_id  = isset($_GET['appointment']) ? absint($_GET['appointment']) : 0;
+$dagdeel_naam    = '';
+
+if ($is_single && $appointment_id) {
+    $selected = array_values(array_filter(
+        $dagdelen,
+        fn($d) => (int) ($d['appointment_id'] ?? 0) === $appointment_id
+    ));
+
+    if (!empty($selected)) {
+        $dagdelen = $selected;
+        $dagdeel  = $selected[0];
+
+        // Naam van het dagdeel ("Cursus X: Ochtend" -> "Ochtend"), met fallback op het label.
+        $raw_name = trim((string) ($dagdeel['name'] ?? ''));
+        if ($raw_name !== '') {
+            $dagdeel_naam = strpos($raw_name, ':') !== false
+                ? trim(substr($raw_name, strpos($raw_name, ':') + 1))
+                : $raw_name;
+        } elseif (!empty($dagdeel['label'])) {
+            $dagdeel_naam = (string) $dagdeel['label'];
+        }
+
+        // Datum en beschikbaarheid van dit dagdeel laten voorgaan op die van de hele cursus.
+        if (!empty($dagdeel['date'])) {
+            $cursus_datum = $dagdeel['date'];
+        }
+        if (isset($dagdeel['places_left'])) {
+            $beschikbaar  = (int) $dagdeel['places_left'];
+            $_GET['beschikbaar'] = $beschikbaar;
+        }
+    }
+}
+
 $cursuskalender_page = function_exists('arehbo_option_page_link_post') ? arehbo_option_page_link_post('cursuskalender_page') : null;
 
 if ($cursuskalender_page) {
@@ -60,6 +96,7 @@ $icon_back     = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" wi
 $icon_euro     = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M15 5a7 7 0 1 0 0 14A7 7 0 0 0 15 5ZM4 10h8M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 $icon_user     = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>';
 $icon_location = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
+$icon_calendar = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>';
 
 ?>
 
@@ -94,18 +131,12 @@ $icon_location = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" wi
 
         <div class="inschr-form-main">
 
-            <?php if ($course_naam || $course_id || $cursus_datum || $prijs || isset($_GET['beschikbaar']) || $locatie) : ?>
+            <?php if ($course_naam || $cursus_datum || $prijs || isset($_GET['beschikbaar']) || $locatie) : ?>
                 <div class="inschr-form-info-box">
                     <?php if ($course_naam) : ?>
-                        <h2 class="inschr-form-info-box__title"><?= esc_html($course_naam); ?></h2>
+                        <h2 class="inschr-form-info-box__title"><?= esc_html($dagdeel_naam ? $course_naam . ' - ' . $dagdeel_naam : $course_naam); ?></h2>
                     <?php endif; ?>
                     <div class="inschr-form-info-box__meta">
-                        <?php if ($course_id) : ?>
-                            <div class="inschr-form-info-box__meta-row">
-                                <span class="inschr-form-info-box__meta-icon">#</span>
-                                <span><?= esc_html($course_id); ?></span>
-                            </div>
-                        <?php endif; ?>
                         <?php if ($cursus_datum) : ?>
                             <div class="inschr-form-info-box__meta-row">
                                 <?= $icon_calendar; ?>
@@ -148,7 +179,7 @@ $icon_location = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" wi
 
             <?php if (!empty($dagdelen)) : ?>
                 <div class="inschr-form-days-box">
-                    <h2 class="inschr-form-days-box__title">Lesdagen:</h2>
+                    <h2 class="inschr-form-days-box__title"><?= count($dagdelen) === 1 ? 'Lesdag:' : 'Lesdagen:'; ?></h2>
                     <ul class="inschr-form-days-box__list">
                         <?php foreach ($dagdelen as $dag) :
                             $dt = !empty($dag['date']) ? DateTime::createFromFormat('d-m-Y', $dag['date']) : false;

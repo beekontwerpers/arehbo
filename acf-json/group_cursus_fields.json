@@ -6,93 +6,283 @@
             "key": "field_cursus_kosten",
             "label": "Kosten",
             "name": "kosten",
+            "aria-label": "",
             "type": "text",
             "instructions": "Bijv. €413,- p.p.",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
-            "placeholder": "€413,- p.p."
+            "placeholder": "€413,- p.p.",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_cursus_locatie",
             "label": "Locatie",
             "name": "locatie",
+            "aria-label": "",
             "type": "text",
             "instructions": "Bijv. Utrecht",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
-            "placeholder": "Utrecht"
+            "placeholder": "Utrecht",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_cursus_duur",
             "label": "Duur",
             "name": "duur",
+            "aria-label": "",
             "type": "text",
             "instructions": "Bijv. 2 dagen",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
-            "placeholder": "2 dagen"
+            "placeholder": "2 dagen",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
         },
-		{
+        {
+            "key": "field_cursus_inschrijven_url",
+            "label": "Inschrijven URL",
+            "name": "inschrijven_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Link voor de knop 'Direct inschrijven'.",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https:\/\/"
+        },
+        {
+            "key": "field_cursus_eigen_locatie_label",
+            "label": "Op eigen locatie – knoptekst",
+            "name": "eigen_locatie_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Tekst voor de tweede knop.",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "OP EIGEN LOCATIE",
+            "placeholder": "OP EIGEN LOCATIE",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_cursus_eigen_locatie_link",
+            "label": "Op eigen locatie – link",
+            "name": "eigen_locatie_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "Waar de tweede knop naartoe linkt.",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
             "key": "field_cursus_visualsystems_id",
             "label": "ID Visual Systems",
             "name": "id_visual_systems",
+            "aria-label": "",
             "type": "text",
             "instructions": "",
-			"default_value": ""
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
-		{
+        {
             "key": "field_cursus_visualsystems_code",
             "label": "Code Visual Systems",
             "name": "code_visual_systems",
+            "aria-label": "",
             "type": "text",
             "instructions": "",
-			"default_value": ""
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
-		{
+        {
             "key": "field_cursus_visualsystems_description",
             "label": "Naam Visual Systems",
             "name": "description_visual_systems",
+            "aria-label": "",
             "type": "text",
             "instructions": "",
-			"default_value": ""
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
-		{
+        {
             "key": "field_cursus_visualsystems_product_id",
             "label": "Product ID Visual Systems",
             "name": "product_id_visual_systems",
+            "aria-label": "",
             "type": "text",
             "instructions": "",
-			"default_value": ""
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
-		{
+        {
             "key": "field_cursus_visualsystems_date",
             "label": "Last update Visual Systems",
             "name": "date_visual_systems",
+            "aria-label": "",
             "type": "date_time_picker",
             "instructions": "",
-			"display_format": "Y-m-d H:i:s",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "Y-m-d H:i:s",
             "return_format": "Y-m-d H:i:s",
             "first_day": 1,
             "default_to_current_date": 0
         },
-		{
+        {
             "key": "field_cursus_visualsystems_visible",
             "label": "Cursus zichtbaar",
             "name": "visible_visual_systems",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
-			"default_value": "0"
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "message": "",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
-		{
-            "key": "field_cursus_visualsystems_css",
-            "label": "CSS Visual Systems",
-            "name": "css_visual_systems",
+        {
+            "key": "field_6a97cc274587a",
+            "label": "Dagdeel cursus",
+            "name": "dagdeel_cursus",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_6a97cc3c4587b",
+            "label": "Dagdelen",
+            "name": "dagdelen",
+            "aria-label": "",
             "type": "repeater",
             "instructions": "",
-			"sub_fields": [
-				{
-                    "key": "field_cursus_visualsystems_selector",
-                    "label": "selector",
-                    "name": "selector",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Nieuwe rij",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_6a97cc554587c",
+                    "label": "Component ID",
+                    "name": "component_id",
                     "aria-label": "",
-                    "type": "text",
+                    "type": "number",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -102,17 +292,19 @@
                         "id": ""
                     },
                     "default_value": "",
-                    "maxlength": "",
+                    "min": "",
+                    "max": "",
                     "allow_in_bindings": 0,
                     "placeholder": "",
+                    "step": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_cursus_visualsystems_css"
+                    "parent_repeater": "field_6a97cc3c4587b"
                 },
                 {
-                    "key": "field_cursus_visualsystems_value",
-                    "label": "value",
-                    "name": "value",
+                    "key": "field_6a97cc664587d",
+                    "label": "Naam",
+                    "name": "naam",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
@@ -129,21 +321,12 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_cursus_visualsystems_css"
-                }
-			]
-        },
-		{
-            "key": "field_cursus_visualsystems_lists",
-            "label": "lijsten Visual Systems",
-            "name": "lists_visual_systems",
-            "type": "repeater",
-            "instructions": "",
-			"sub_fields": [
-				{
-                    "key": "field_cursus_visualsystems_list",
-                    "label": "lijst",
-                    "name": "lijst",
+                    "parent_repeater": "field_6a97cc3c4587b"
+                },
+                {
+                    "key": "field_6a97cc6e4587e",
+                    "label": "Prijs",
+                    "name": "prijs",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
@@ -160,9 +343,9 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_cursus_visualsystems_lists"
+                    "parent_repeater": "field_6a97cc3c4587b"
                 }
-			]
+            ]
         }
     ],
     "location": [
@@ -183,5 +366,8 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1773700000
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1788333180
 }

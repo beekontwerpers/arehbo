@@ -21,6 +21,9 @@ require_once __DIR__ . '/post-types.php';
 require_once __DIR__ . '/taxonomies.php';
 require_once __DIR__ . '/queries.php';
 
+// Tracking / dataLayer
+require_once __DIR__ . '/tracking.php';
+
 // Upload tweaks
 require_once __DIR__ . '/svg.php';
 
